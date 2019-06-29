@@ -73,23 +73,23 @@ app.use("/admin",require("./middleware/loginGuard"));
 app.use("/home",home);
 app.use("/admin",admin);
 
-//用户错误处理
-// app.use((err,req,res,next) => {
+// 用户错误处理
+app.use((err,req,res,next) => {
 
-//     //将错误信息转成对象形式
-//     let obj = JSON.parse(err);
+    //将错误信息转成对象形式
+    let obj = JSON.parse(err);
 
-//     let arr = [];
-//     //将传入的参数除去path存入数组中
-//     for(attr in obj) {
-//         if(attr!="path") {
-//             obj[attr] = attr+"="+obj[attr];
-//             arr.push(obj[attr]);
-//         }
-//     }
-//     //重定向页面，并用数组的join方法拼接数组中的元素作为参数
-//     res.redirect(`${obj.path}?${arr.join("&")}`);
-// });
+    let arr = [];
+    //将传入的参数除去path存入数组中
+    for(attr in obj) {
+        if(attr!="path") {
+            obj[attr] = attr+"="+obj[attr];
+            arr.push(obj[attr]);
+        }
+    }
+    //重定向页面，并用数组的join方法拼接数组中的元素作为参数
+    res.redirect(`${obj.path}?${arr.join("&")}`);
+});
 
 //监听端口
 app.listen(3000);
