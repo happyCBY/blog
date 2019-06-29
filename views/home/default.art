@@ -1,0 +1,38 @@
+{{extend './common/layout.art'}}
+	{{block "link"}}
+	<link rel="stylesheet" href="css/index.css">
+	{{/block}}
+	{{block "main"}}
+	{{include "./common/header.art"}}
+	<!-- 文章列表开始 -->
+	<ul class="list w1100">
+		{{each result.records}}
+		<li class="{{$index%2!=0?"fr":"fl"}}">
+			<a href="/home/article?id={{@$value._id}}" class="thumbnail">
+				<img src="{{$value.cover}}">
+			</a>
+			<div class="content">
+				<a class="article-title" href="/home/article?id={{@$value._id}}">{{$value.title}}</a>
+				<div class="article-info">
+					<span class="author">{{$value.author.username}}</span>
+					<span>{{dateformat($value.publishDate,"yyyy-mm-dd")}}</span>
+				</div>
+				<div class="brief">
+					{{@$value.content.substr(0,90)+"..."}}
+				</div>
+			</div>
+		</li>
+		{{/each}}
+	</ul>
+	<!-- 文章列表结束 -->
+
+	<!-- 分页开始 -->
+	<div class="page w1100">
+		<a href="/home/index?page={{result.page-1>0?result.page-1:1}}" style="display:{{result.page>1?'inline':'none'}}" >上一页</a>
+		{{each result.display}}
+		<a href="/home/index?page={{$value}}" class={{$value==result.page?'active':''}}>{{$value}}</a>
+		{{/each}}
+		<a href="/home/index?page={{result.page+1>result.total?result.page:result.pages}}" style="display:{{result.page!=result.pages?'inline':'none'}}">下一页</a>
+	</div>
+	<!-- 分页结束 -->
+	{{/block}}

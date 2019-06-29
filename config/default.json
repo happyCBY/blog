@@ -1,0 +1,10 @@
+{
+    "title": "我是默认环境",
+    "session": {
+        "secret": "secret key",
+        "saveUninitialized": false,
+        "cookie": {
+            "maxAge": 36000000
+        }
+    }
+}

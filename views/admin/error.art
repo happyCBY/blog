@@ -1,0 +1,20 @@
+{{extend "./common/layout.art"}}
+{{block "main"}}
+    <h1 id = "h1"> {{msg}}</h1>
+{{/block}}
+{{block "script"}}
+
+    <script>
+        var count = 3;
+        $("#h1").html("{{msg}}"+" 页面"+count+"秒后跳转");
+        var timer = setInterval(function() {
+            count--;
+            $("#h1").html("{{msg}}"+" 页面"+count+"秒后跳转");
+            if(count==0) {
+                clearInterval(timer);
+                location.href = "/admin/login";
+            }
+
+        }, 1000);
+    </script>
+{{/block}}

@@ -1,0 +1,97 @@
+{{extend "./common/layout.art"}}
+    {{include './common/header.art'}}
+    {{block "main"}}
+
+    <div class="content">
+        <!-- 侧边栏 -->
+        {{include './common/aside.art'}}
+        <!-- 侧边栏 -->
+        <div class="main">
+            <!-- 分类标题 -->
+            <div class="title">
+                {{if button=="修改"}}
+                    <h4>{{@article&&article._id}}</h4>
+                {{/if}}
+                 <p class="tips">{{message}}</p>
+            </div>
+            <!-- /分类标题 -->
+            <form class="form-container" action="{{href}}" method="post" enctype="multipart/form-data" >
+                <!-- 隐藏域提交 -->
+                {{if button=="修改"}}
+                    <input type = "hidden" value={{@article&&article._id}} name="_id">
+                {{/if}}
+                <div class="form-group">
+                    <label>标题</label>
+                    <input type="text" value="{{article&&article.title}}" name="title" class="form-control" placeholder="请输入文章标题">
+                </div>
+                <div class="form-group">
+                    <label>作者</label>
+                    <input type="text" name="author" value="{{@userInfo._id}}" class="form-control" readonly>
+                </div>
+                <div class="form-group">
+                    <label>发布时间</label>
+                    <input type="date" value="{{dateformat(article&&article.publishDate,'yyyy-mm-dd')}}" name="publishDate" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    {{if article}}
+                    <input type = "hidden" value = {{article.cover}} name="cover">
+                    {{/if}}
+
+                   <label for="exampleInputFile">文章封面</label>
+                   <input type="file" name="cover" id="file">
+                   <div class="thumbnail-waper">
+                       <img class="img-thumbnail" src="{{article&&article.cover}}" id="file_img">
+                   </div>
+                </div>
+                <div class="form-group">
+                    <label>内容</label>
+                    <textarea class="form-control" value="{{article&&article.content}}" name="content" id="editor"></textarea>
+                </div>
+                <div class="buttons">
+                    <input type="submit" class="btn btn-primary" value = {{button}}>
+                </div>
+            </form>
+
+        </div>
+    </div>
+    {{/block}}
+    {{block "script"}}
+    <script src="lib/ckeditor5/ckeditor.js"></script>
+    <script type="text/javascript">
+
+        let editor;
+
+        ClassicEditor
+                .create( document.querySelector('#editor'))
+                .then(newEditor => {
+                    editor = newEditor;
+                })
+                .catch( error => {
+                    console.error( error );
+                });
+
+        // 获取数据
+        // const editorData = editor.getData();
+
+        //获得上传文件按钮
+        const file = document.querySelector("#file");
+        //获得图片显示按钮
+        const img = document.querySelector("#file_img");
+        //给上传文件按钮添加onchange事件，让用户选择完文件之后触发该事件
+        file.onchange = function(){
+            //创建读取文件对象
+            const reader = new FileReader();
+            //读取文件 this.files读取用户选择的文件列表 是一个数组，返回用户选择的图片信息
+            reader.readAsDataURL(this.files[0]);
+            //监听事件
+            reader.onload = function(){
+                //reader.result 返回读取文件的信息
+                img.src=reader.result;
+            }
+        }
+        $(file).on("click",function(){
+            console.log(this);
+        })
+    </script>
+    {{/block}}

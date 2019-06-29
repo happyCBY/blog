@@ -1,0 +1,11 @@
+list_article:  渲染文章列表页
+list_article-edit: 渲染文章添加页面
+list_login： 用户登录
+list_loginPage：渲染登录页面
+list_logout: 退出登录
+list_register: 新增用户
+list_user_delete: 删除用户
+list_user_msg_update: 修改用户
+list_user-edit: 渲染新增用户或者修改页面
+list_user: 渲染用户列表页面
+list_article_msg_update: 修改文章信息
